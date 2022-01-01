@@ -4,6 +4,13 @@ const container = document.getElementById("main");
 const scoreSpan = document.getElementById("score");
 const B_HEIGHT = container.offsetHeight;
 const B_WIDTH = container.offsetWidth;
+const startCtn = document.getElementById("start-ctr");
+const starBtn = document.getElementById("start");
+const scoreCard = document.getElementById("score-card");
+const finalScore = document.getElementById("score-card-score");
+const finalTime = document.getElementById("score-card-time");
+const restartBtn = document.getElementById("restart");
+const timerNode = document.getElementById("timer");
 const BOX_SIZE = 32;
 const GUTTER = 4;
 const GRID_CELL_COLOR = "transparent";
@@ -21,7 +28,9 @@ const BOMB_SET = new Set(
 const HINT_SET = new Set();
 /****************************************************************************/
 
-console.log(ROWS, COLS, BOMB_SET);
+let timer = 0;
+let clicks = 0;
+let timerId = 0;
 
 /**
  * function to create grid for snake game
@@ -157,6 +166,10 @@ const showEmptyCells = (position) => {
 };
 
 const showAllBombs = () => {
+  clearInterval(timerId);
+  finalScore.innerText = clicks;
+  finalTime.innerText = getFormatedTime(timer);
+  scoreCard.classList.remove("hidden");
   const cells = getGridItems();
   BOMB_SET.forEach((pos) => {
     const index = getArrayIndex(...parseBombKey(pos));
@@ -168,7 +181,6 @@ const handleButtonClick = (button) => {
   const position = button.dataset.position;
   if (BOMB_SET.has(position)) {
     showAllBombs();
-    console.log("game over");
     return;
   }
   const value = button.innerText;
@@ -192,21 +204,54 @@ const handleButtonClick = (button) => {
   }
 };
 
-/**
- * init game event listeners
- * @returns {void}
- */
-const initGameListener = () => {
-  container.addEventListener("click", ({ target }) => {
+const initCellClickListener = () => {
+  container.onclick = ({ target }) => {
     const button = target.closest("button");
     if (button) {
+      clicks++;
+      scoreSpan.innerText = clicks;
       handleButtonClick(button);
     }
-  });
+  };
+};
+
+const getFormatedTime = (time) => {
+  const mins = Math.floor(time / 60);
+  const secs = time - mins * 60;
+  return `${mins}:${secs}`;
+};
+
+const initTimer = () => {
+  timerId = setInterval(() => {
+    timer++;
+    timerNode.innerText = getFormatedTime(timer);
+  }, 1000);
+};
+
+const startGame = () => {
+  timer = 0;
+  clicks = 0;
+  scoreSpan.innerText = 0;
+  timerNode.innerText = "0:0";
+  createGrid(ROWS, COLS, BOX_SIZE);
+  placeHints();
+  initCellClickListener();
+  initTimer();
+};
+
+const initGameListener = () => {
+  starBtn.onclick = () => {
+    startCtn.classList.add("hidden");
+    startGame();
+  };
+
+  restartBtn.onclick = () => {
+    scoreCard.classList.add("hidden");
+    startGame();
+  };
 };
 
 /******************************************************************************/
 
-createGrid(ROWS, COLS, BOX_SIZE);
-placeHints();
 initGameListener();
+createGrid(ROWS, COLS, BOX_SIZE);

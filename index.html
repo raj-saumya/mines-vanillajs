@@ -12,12 +12,108 @@
     <div class="flex flex-col">
       <div class="flex">
         <label class="font-mono text-white text-base mb-2"
-          >SCORE - <span id="score">0</span></label
+          >Clicks - <span id="score">0</span></label
+        >
+        <label class="font-mono ml-auto text-white text-base mb-2"
+          >Time - <span id="timer">0:0</span></label
         >
       </div>
       <div class="border-t border-zinc-500 mb-4"></div>
     </div>
     <div id="main" class="relative flex-1"></div>
+    <div
+      id="start-ctr"
+      class="
+        h-screen
+        w-screen
+        fixed
+        flex
+        items-center
+        justify-center
+        top-0
+        left-0
+        backdrop-blur-sm
+      "
+    >
+      <button
+        id="start"
+        class="
+          shadow-lg shadow-black/20
+          active:bg-zinc-800
+          h-12
+          w-32
+          m-1
+          p-1
+          bg-zinc-900
+          flex
+          items-center
+          justify-center
+          rounded
+        "
+      >
+        <label class="font-mono text-base text-white cursor-pointer"
+          >START</label
+        >
+      </button>
+    </div>
+    <div
+      id="score-card"
+      class="
+        h-screen
+        w-screen
+        fixed
+        flex
+        items-center
+        justify-center
+        top-0
+        left-0
+        backdrop-blur-sm
+        hidden
+      "
+    >
+      <div
+        class="
+          flex flex-col
+          w-64
+          items-center
+          bg-zinc-900
+          p-6
+          rounded
+          shadow-lg shadow-black/20
+        "
+      >
+        <label class="font-mono text-white text-4xl mb-2">GAME OVER</label>
+        <div class="h-4"></div>
+        <label class="font-mono text-white text-base mb-2"
+          >Final Score - <span id="score-card-score">0</span> clicks</label
+        >
+        <div class="h-2"></div>
+        <label class="font-mono text-white text-base mb-2"
+          >Total Time - <span id="score-card-time">0</span></label
+        >
+        <div class="h-8"></div>
+        <button
+          id="restart"
+          class="
+            shadow-lg shadow-black/20
+            active:bg-zinc-600
+            h-12
+            w-32
+            m-1
+            p-1
+            bg-zinc-700
+            flex
+            items-center
+            justify-center
+            rounded
+          "
+        >
+          <label class="font-mono text-base text-white cursor-pointer"
+            >RESTART</label
+          >
+        </button>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js"></script>
     <script src="js/minesweeper.js"></script>
   </body>
